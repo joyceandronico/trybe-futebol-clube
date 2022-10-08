@@ -12,7 +12,20 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
+const mockLogin = ({
+  email: 'teste@trybe.com',
+  password:'1234567'
+});
+
+describe('/login', () => {
+  describe('POST', () => {
+    it('permite o acesso com dados válidos no front-end', async () => {
+      const response = await (chai.request(app).post('/login')).send(mockLogin)
+      expect(response.status).to.equal(201)
+      expect(response.body).to.deep.equal({id: 1, ...mockLogin})
+    })
+  })
+
   /**
    * Exemplo do uso de stubs com tipos
    */
@@ -39,7 +52,7 @@ describe('Seu teste', () => {
   //   expect(...)
   // });
 
-  it('Seu sub-teste', () => {
-    expect(false).to.be.eq(true);
-  });
+  // it('Seu sub-teste', () => {
+  //   expect(false).to.be.eq(true);
+  // });
 });
