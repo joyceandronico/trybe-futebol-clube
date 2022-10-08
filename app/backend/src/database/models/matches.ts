@@ -2,7 +2,7 @@ import { Model, DataTypes } from 'sequelize';
 import db from '.';
 import teams from './teams';
 
-class matches extends Model {
+class Matches extends Model {
   id: number;
   homeTeam: number;
   homeTeamGoals: number;
@@ -10,7 +10,7 @@ class matches extends Model {
   awayTeamGoals: number;
   inProgress: boolean;
 }
-matches.init({
+Matches.init({
   homeTeam: DataTypes.INTEGER,
   homeTeamGoals: DataTypes.INTEGER,
   awayTeam: DataTypes.INTEGER,
@@ -24,9 +24,9 @@ matches.init({
   timestamps: false,
 });
 
-matches.belongsTo(teams, { foreignKey: 'homeTeam', as: 'teamHome' });
-matches.belongsTo(teams, { foreignKey: 'awayTeam', as: 'teamAway' });
-teams.hasMany(matches, { foreignKey: 'homeTeam', as: 'teamHome' });
-teams.hasMany(matches, { foreignKey: 'awayTeam', as: 'teamAway' });
+Matches.belongsTo(teams, { foreignKey: 'homeTeam', as: 'teamHome' });
+Matches.belongsTo(teams, { foreignKey: 'awayTeam', as: 'teamAway' });
+teams.hasMany(Matches, { foreignKey: 'homeTeam', as: 'teamHome' });
+teams.hasMany(Matches, { foreignKey: 'awayTeam', as: 'teamAway' });
 
-export default matches;
+export default Matches;
