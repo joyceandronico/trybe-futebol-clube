@@ -8,9 +8,9 @@ export default class Controller {
     try {
       const { email, password } = req.body;
       const user = await this.service.newLogin(email, password);
-      return res.status(200).json(user);
-    } catch (e) {
-      return next(e);
+      return res.status(201).json(user);
+    } catch (error) {
+      return next(error);
     }
   };
 }

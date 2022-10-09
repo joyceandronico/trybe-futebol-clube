@@ -8,10 +8,10 @@ export default class User {
 
   newLogin = async (email: string, password: string) => {
     const findUser = await this.model.findOne({ where: { email } }) as IUser;
-    if (!findUser) throw new Error('User validation');
+    if (!findUser) throw new Error('user validation');
 
     const correctPassword = bcrypt.compareSync(password, findUser.password as string);
-    if (!correctPassword) throw new Error('User validation');
+    if (!correctPassword) throw new Error('user validation');
 
     const token = await createToken(email, findUser.role);
     return { token };
