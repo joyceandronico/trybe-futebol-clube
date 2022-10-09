@@ -12,19 +12,49 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-const mockLogin = ({
-  email: 'teste@trybe.com',
-  password:'1234567'
+//import users from '../database/models/users';
+
+const mockUser = ({
+
+  email: 'test@test.com',
+  password:'senha_mock'
+
+
 });
 
 describe('/login', () => {
-  describe('POST', () => {
-    it('permite o acesso com dados válidos no front-end', async () => {
-      const response = await (chai.request(app).post('/login')).send(mockLogin)
-      expect(response.status).to.equal(201)
-      expect(response.body).to.deep.equal({id: 1, ...mockLogin})
-    })
-  })
+
+  describe('Verifica que não é possível fazer login com email ou senha incorretos', () => {
+    it('Verifica rota /login', async () => {
+      const response = await (chai.request(app).post('/login')).send(mockUser);
+      expect(response.status).to.be.equal(401);
+      expect (response.body).to.deep.equal({
+        "message": "Incorrect email or password"
+      })
+    });
+  });
+
+  describe('Verifica que não é possível fazer login com um campo não preenchido', () => {
+    it('Não efetua login sem campo email preenchido', async () => {
+      const response = await (chai.request(app).post('/login')).send({password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'});
+      expect(response.status).to.be.equal(401);
+      expect (response.body).to.deep.equal({
+        "message": "Incorrect email or password"
+      })
+    });
+  });
+
+  describe('Verifica que não é possível fazer login com um campo não preenchido', () => {
+    it('Não efetua login sem campo senha preenchida', async () => {
+      const response = await (chai.request(app).post('/login')).send({email: 'admin@admin.com' });
+      expect(response.status).to.be.equal(400);
+      expect (response.body).to.deep.equal({
+        "message": "All fields must be filled"
+      })
+    });
+  });
+
+
 
   /**
    * Exemplo do uso de stubs com tipos
