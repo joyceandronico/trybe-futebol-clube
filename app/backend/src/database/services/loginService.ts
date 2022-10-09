@@ -27,6 +27,6 @@ export default class User {
       const findUser = decoder(token);
       return { role: findUser };
     }
-    return { error: 'Erro' };
+    return { error: 'login validate error' };
   };
 }

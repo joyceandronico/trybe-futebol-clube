@@ -5,14 +5,14 @@ const userValidate = async (req: Request, _res: Response, next: NextFunction) =>
     const { email, password } = req.body;
     const regexEmail = /\S+@\S+\.\S+/;
     const validEmail = regexEmail.test(email);
-    const validPassword = password.lenght > 6;
+    const invalidPassword = password.lenght < 6;
 
     if (!email || !password) {
       throw new Error('no email or password');
     }
 
-    if (!validEmail || !validPassword) {
-      throw new Error('invalid email or password');
+    if (!validEmail || invalidPassword) {
+      throw new Error('user validation');
     }
 
     next();

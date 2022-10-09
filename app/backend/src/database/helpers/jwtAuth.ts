@@ -1,7 +1,7 @@
 import { SignOptions, sign, verify, JwtPayload } from 'jsonwebtoken';
 
 const jwtKeyPath = process.env.JWT_SECRET || 'SECRET';
-const jwtConfig: SignOptions = { expiresIn: '1d', algorithm: 'HS256' };
+const jwtConfig: SignOptions = { expiresIn: '7d', algorithm: 'HS256' };
 
 const createToken = async (email: string, role: string): Promise<string> => {
   const token = sign({ email, role }, jwtKeyPath, jwtConfig);
