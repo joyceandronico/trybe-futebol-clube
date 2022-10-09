@@ -40,17 +40,17 @@ describe('/login', () => {
 
   describe('Verifica que não é possível fazer login com um campo não preenchido', () => {
     it('Não efetua login sem campo email preenchido', async () => {
-      const response = await (chai.request(app).post('/login')).send({password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'});
-      expect(response.status).to.be.equal(401);
+      const response = await (chai.request(app).post('/login')).send({email: '', password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'});
+      expect(response.status).to.be.equal(400);
       expect (response.body).to.deep.equal({
-        "message": "Incorrect email or password"
+        "message": "All fields must be filled"
       })
     });
   });
 
   describe('Verifica que não é possível fazer login com um campo não preenchido', () => {
     it('Não efetua login sem campo senha preenchida', async () => {
-      const response = await (chai.request(app).post('/login')).send({email: 'admin@admin.com' });
+      const response = await (chai.request(app).post('/login')).send({email: 'admin@admin.com' , password:''});
       expect(response.status).to.be.equal(400);
       expect (response.body).to.deep.equal({
         "message": "All fields must be filled"
