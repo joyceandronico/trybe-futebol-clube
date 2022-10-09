@@ -22,15 +22,27 @@ const mockUser = ({
   password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
 });
 
-const mockLogin = ({
-email: 'teste@teste.com',
-password:'$2a$08$xi.Hxk1czAO0nZRB393u10aED0RQ1N3PA',})
+const mockInvalidLogin = ({
+email: 'teste@testecom',
+password:'$2a$',})
 
 describe('/login', () => {
 
+  describe('Verifica que é possível fazer login com email e senha corretos', () => {
+    it('Verifica login efetuado com sucesso', async () => {
+      const response = await (chai.request(app).post('/login')).send(
+        {
+      email: 'admin@admin.com',
+      password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
+    });
+      expect(response.status).to.be.equal(200);
+      })
+    });
+  });
+
   describe('Verifica que não é possível fazer login com email ou senha incorretos', () => {
     it('Verifica rota /login', async () => {
-      const response = await (chai.request(app).post('/login')).send( mockLogin);
+      const response = await (chai.request(app).post('/login')).send( mockInvalidLogin);
       expect(response.status).to.be.equal(401);
       expect (response.body).to.deep.equal({
         "message": "Incorrect email or password"
@@ -58,7 +70,7 @@ describe('/login', () => {
     });
   });
 
-});
+
 
 describe('/login/validate', () => {
 
