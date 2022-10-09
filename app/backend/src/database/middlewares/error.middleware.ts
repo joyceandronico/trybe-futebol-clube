@@ -6,7 +6,7 @@ const errorMiddleware = (error: Error, _req: Request, res: Response, _next: Next
     case 'no email or password': {
       return res.status(400).json({ message: 'All fields must be filled' });
     }
-    case 'user validation': {
+    case 'invalid email or password': {
       return res.status(401).json({ message: 'Incorrect email or password' });
     }
 
