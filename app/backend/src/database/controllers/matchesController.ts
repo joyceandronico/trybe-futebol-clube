@@ -12,4 +12,13 @@ export default class Match {
       next(error);
     }
   };
+
+  createNewMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const match = await this.service.createNewMatch(req.body);
+      return res.status(201).json(match);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
