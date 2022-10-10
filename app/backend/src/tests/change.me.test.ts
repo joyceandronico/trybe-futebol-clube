@@ -14,6 +14,7 @@ const { expect } = chai;
 
 import users from '../database/models/users';
 import teams from '../database/models/teams';
+import matches from '../database/models/matches';
 
 const mockUser = ({
   id: 1,
@@ -26,6 +27,7 @@ const mockUser = ({
 const mockInvalidLogin = ({
 email: 'teste@testecom',
 password:'$2a$',})
+
 
 describe('/login', () => {
 
@@ -86,7 +88,7 @@ describe('/login/validate', () => {
   })
 
   it('Verifica se o objeto retornado contém a informação role:user', async () => {
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2NTI5Mjk2NywiZXhwIjoxNjY1Mzc5MzY3fQ.O1HB_t_0g2xVGFiNvB4AUOTKsBXBwTNvvSNJ6poYzA4'
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY2NTM4MDkwNiwiZXhwIjoxNjY1OTg1NzA2fQ.u0Cvnghsh7d56wFlcGZQWcCxQ3Z3BXtiPfgcMwL1kRg'
     const response = await chai
     .request(app).get('/login/validate')
        .set('authorization', token)
@@ -121,6 +123,27 @@ describe('teams/:id ', () => {
   });
 
 });
+
+describe('/matches', () => {
+  before(async () => {
+    sinon
+      .stub(matches, "findOne")
+      .resolves({ } as matches);
+    });
+
+  after(()=>{
+    (matches.findOne as sinon.SinonStub).restore();
+  })
+
+  it('Verifica se a rota "/matches" retorna status "200" ', async () => {
+    const response = await chai
+    .request(app).get('/matches')
+       expect(response.status).to.be.equal(200);
+
+  });
+
+});
+
 
       /**
    * Exemplo do uso de stubs com tipos
