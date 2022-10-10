@@ -9,5 +9,6 @@ const matchesController = new MatchesController();
 
 matchesRouter.get('/', matchesController.getAllMatches);
 matchesRouter.post('/', validTokenMiddleware, matchesController.createNewMatch);
+matchesRouter.patch('/:id/finish', matchesController.finishMatch);
 
 export default matchesRouter;

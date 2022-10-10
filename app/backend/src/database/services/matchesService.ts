@@ -13,4 +13,9 @@ export default class Matches {
     const createdMatch = await this.model.create({ ...data, inProgress: true });
     return createdMatch;
   };
+
+  finishMatch = async (id: number): Promise<object> => {
+    await this.model.update({ inProgress: false }, { where: { id } });
+    return { message: 'Finished' };
+  };
 }

@@ -21,4 +21,14 @@ export default class Match {
       next(error);
     }
   };
+
+  finishMatch = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params;
+      const response = await this.service.finishMatch(Number(id));
+      return res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
