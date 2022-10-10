@@ -30,19 +30,19 @@ password:'$2a$',})
 describe('/login', () => {
 
   describe('Verifica que é possível fazer login com email e senha corretos', () => {
-    it('Verifica login efetuado com sucesso', async () => {
+    it('Verifica se o login é efetuado com sucesso', async () => {
       const response = await (chai.request(app).post('/login')).send(
         {
       email: 'admin@admin.com',
       password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW',
     });
       expect(response.status).to.be.equal(200);
-      })
-    });
+    })
   });
+});
 
   describe('Verifica que não é possível fazer login com email ou senha incorretos', () => {
-    it('Verifica rota /login', async () => {
+    it('Retorna mensagem de erro se uma senha ou email incorreto for inserido nos campos para login', async () => {
       const response = await (chai.request(app).post('/login')).send( mockInvalidLogin);
       expect(response.status).to.be.equal(401);
       expect (response.body).to.deep.equal({
@@ -52,7 +52,7 @@ describe('/login', () => {
   });
 
   describe('Verifica que não é possível fazer login com um campo não preenchido', () => {
-    it('Não efetua login sem campo email preenchido', async () => {
+    it('Não efetua login se o campo "email" não for preenchido', async () => {
       const response = await (chai.request(app).post('/login')).send({email: '', password:'$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'});
       expect(response.status).to.be.equal(400);
       expect (response.body).to.deep.equal({
@@ -62,7 +62,7 @@ describe('/login', () => {
   });
 
   describe('Verifica que não é possível fazer login com um campo não preenchido', () => {
-    it('Não efetua login sem campo senha preenchida', async () => {
+    it('Não efetua login se o campo "senha" não for preenchido', async () => {
       const response = await (chai.request(app).post('/login')).send({email: 'admin@admin.com' , password:''});
       expect(response.status).to.be.equal(400);
       expect (response.body).to.deep.equal({
