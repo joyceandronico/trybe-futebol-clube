@@ -10,7 +10,7 @@ export default class Matches {
   };
 
   createNewMatch = async (data: IMatch): Promise<IMatch> => {
-    const findMatch = await this.model.create({ ...data, inProgress: true });
-    return findMatch;
+    const createdMatch = await this.model.create({ ...data, inProgress: true });
+    return createdMatch;
   };
 }
