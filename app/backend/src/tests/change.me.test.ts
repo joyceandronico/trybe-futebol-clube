@@ -13,6 +13,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 import users from '../database/models/users';
+import teams from '../database/models/teams';
 
 const mockUser = ({
   id: 1,
@@ -78,7 +79,7 @@ describe('/login/validate', () => {
     sinon
       .stub(users, "findOne")
       .resolves(mockUser as users);
-    });
+  });
 
   after(()=>{
     (users.findOne as sinon.SinonStub).restore();
@@ -91,8 +92,35 @@ describe('/login/validate', () => {
        .set('authorization', token)
        expect(response.status).to.be.equal(200);
        expect(response.body).to.deep.equal({role: 'admin'});
-        });
-      })
+  });
+})
+
+describe('/teams', () => {
+  before(async () => {
+    sinon
+      .stub(teams, "findOne")
+      .resolves({ } as teams);
+  });
+
+  after(()=>{
+    (teams.findOne as sinon.SinonStub).restore();
+  })
+
+  it('Verifica se o endpoint /teams retorna todos os times', async () => {
+    const response = await chai
+    .request(app).get('/teams')
+      expect(response.status).to.be.equal(200);
+  });
+});
+
+describe('teams/:id ', () => {
+  it('Verifica se o endpoint /teams/:id retorna o time com o id informado', async () => {
+   const response = await chai
+   .request(app).get('/teams/1');
+     expect(response.status).to.be.equal(200);
+  });
+
+});
 
       /**
    * Exemplo do uso de stubs com tipos
