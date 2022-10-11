@@ -144,6 +144,39 @@ describe('/matches', () => {
 
 });
 
+describe('/leaderboard', () => {
+  before(async () => {
+    sinon
+      .stub(matches, "findOne")
+      .resolves({ } as any);
+    });
+
+  after(()=>{
+    (matches.findOne as sinon.SinonStub).restore();
+  })
+
+  it('Verifica se a rota /leaderboard/home retorna status "200"', async () => {
+    const response = await chai.request(app).get('/leaderboard/home').send();
+    expect(response.status).to.be.equal(200);
+
+  });
+
+  it('Verifica se a rota /leaderboard/away retorna status "200"', async () => {
+    const response = await chai.request(app).get('/leaderboard/away').send();
+    expect(response.status).to.be.equal(200);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
 
       /**
    * Exemplo do uso de stubs com tipos
