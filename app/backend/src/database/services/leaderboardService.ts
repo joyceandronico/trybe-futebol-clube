@@ -46,4 +46,28 @@ export default class LeaderboardService {
     if (a.scoredGoals > b.scoredGoals) return -1;
     return 0;
   });
+
+  public static async getAwayTeams() {
+    const teamsAwayData = await this.getTeamsData();
+    const matchesData = await this.getMatchesData();
+    const awayGames: ResultsService[] = [];
+
+    teamsAwayData.forEach((teamAway) => {
+      const filteredMatches = matchesData
+        .filter(
+          (filteredMatch) => filteredMatch.inProgress === false
+          && filteredMatch.awayTeam === teamAway.id,
+        );
+      const mappedMatches = filteredMatches
+        .map((mappedMatch) => ({
+          concededGoals: mappedMatch.homeTeamGoals,
+          scoredGoals: mappedMatch.awayTeamGoals,
+        }));
+
+      const teamResults = new ResultsService(teamAway.teamName, mappedMatches);
+      awayGames.push(teamResults);
+    });
+
+    return { code: 200, leaderboard: this.compareTeams(awayGames) };
+  }
 }
