@@ -7,8 +7,8 @@ export default class ResultsService {
   public totalVictories: number;
   public totalDraws: number;
   public totalLosses: number;
-  public scoredGoals: number;
-  public concededGoals: number;
+  public goalsFavor: number;
+  public goalsOwn: number;
   public goalsBalance: number;
   public efficiency: number;
 
@@ -19,17 +19,17 @@ export default class ResultsService {
     this.totalVictories = ResultsService.getVictories(matches);
     this.totalDraws = ResultsService.getDraws(matches);
     this.totalLosses = ResultsService.getLosses(matches);
-    this.scoredGoals = ResultsService.getGoalsFavor(matches);
-    this.concededGoals = ResultsService.getGoalsOwn(matches);
-    this.goalsBalance = this.scoredGoals - this.concededGoals;
+    this.goalsFavor = ResultsService.getGoalsFavor(matches);
+    this.goalsOwn = ResultsService.getGoalsOwn(matches);
+    this.goalsBalance = this.goalsFavor - this.goalsOwn;
     this.efficiency = ResultsService.getEfficiency(this.totalGames, this.totalPoints);
   }
 
   private static getPoints = (matches: IGoals[]): number => {
     let totalPoints = 0;
     matches.forEach((match) => {
-      if (match.scoredGoals > match.concededGoals) totalPoints += 3;
-      if (match.scoredGoals === match.concededGoals) totalPoints += 1;
+      if (match.goalsFavor > match.goalsOwn) totalPoints += 3;
+      if (match.goalsFavor === match.goalsOwn) totalPoints += 1;
     });
     return totalPoints;
   };
@@ -37,7 +37,7 @@ export default class ResultsService {
   private static getVictories(matches: IGoals[]): number {
     let totalVictories = 0;
     matches.forEach((match) => {
-      if (match.scoredGoals > match.concededGoals) totalVictories += 1;
+      if (match.goalsFavor > match.goalsOwn) totalVictories += 1;
     });
     return totalVictories;
   }
@@ -45,7 +45,7 @@ export default class ResultsService {
   private static getDraws(matches: IGoals[]): number {
     let totalDraws = 0;
     matches.forEach((match) => {
-      if (match.scoredGoals === match.concededGoals) totalDraws += 1;
+      if (match.goalsFavor === match.goalsOwn) totalDraws += 1;
     });
     return totalDraws;
   }
@@ -53,20 +53,20 @@ export default class ResultsService {
   private static getLosses(matches: IGoals[]): number {
     let totalLosses = 0;
     matches.forEach((match) => {
-      if (match.scoredGoals < match.concededGoals) totalLosses += 1;
+      if (match.goalsFavor < match.goalsOwn) totalLosses += 1;
     });
     return totalLosses;
   }
 
   private static getGoalsFavor(matches: IGoals[]): number {
     let totalGoalsFavor = 0;
-    matches.forEach((match) => { totalGoalsFavor += match.scoredGoals; });
+    matches.forEach((match) => { totalGoalsFavor += match.goalsFavor; });
     return totalGoalsFavor;
   }
 
   private static getGoalsOwn(matches: IGoals[]): number {
     let totalGoalsOwn = 0;
-    matches.forEach((match) => { totalGoalsOwn += match.concededGoals; });
+    matches.forEach((match) => { totalGoalsOwn += match.goalsOwn; });
     return totalGoalsOwn;
   }
 

@@ -1,4 +1,4 @@
 export interface IGoals{
-  scoredGoals: number;
-  concededGoals: number;
+  goalsFavor: number;
+  goalsOwn: number;
 }

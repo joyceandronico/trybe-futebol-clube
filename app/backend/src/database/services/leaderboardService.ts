@@ -16,8 +16,8 @@ export default class LeaderboardService {
         );
       const mappedMatches = filteredMatches
         .map((mappedMatch) => ({
-          scoredGoals: mappedMatch.homeTeamGoals,
-          concededGoals: mappedMatch.awayTeamGoals,
+          goalsFavor: mappedMatch.homeTeamGoals,
+          goalsOwn: mappedMatch.awayTeamGoals,
         }));
 
       const teamResults = new ResultsService(team.teamName, mappedMatches);
@@ -42,8 +42,8 @@ export default class LeaderboardService {
     if (a.totalPoints > b.totalPoints) return -1;
     if (a.goalsBalance < b.goalsBalance) return 1;
     if (a.goalsBalance > b.goalsBalance) return -1;
-    if (a.scoredGoals < b.scoredGoals) return 1;
-    if (a.scoredGoals > b.scoredGoals) return -1;
+    if (a.goalsFavor < b.goalsFavor) return 1;
+    if (a.goalsFavor > b.goalsFavor) return -1;
     return 0;
   });
 
@@ -60,8 +60,8 @@ export default class LeaderboardService {
         );
       const mappedMatches = filteredMatches
         .map((mappedMatch) => ({
-          concededGoals: mappedMatch.homeTeamGoals,
-          scoredGoals: mappedMatch.awayTeamGoals,
+          goalsOwn: mappedMatch.homeTeamGoals,
+          goalsFavor: mappedMatch.awayTeamGoals,
         }));
 
       const teamResults = new ResultsService(teamAway.teamName, mappedMatches);
