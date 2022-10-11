@@ -26,4 +26,9 @@ export default class Matches {
     await this.model.update({ inProgress: false }, { where: { id } });
     return { message: 'Finished' };
   };
+
+  updateMatch = async (id: string, data: object): Promise<object> => {
+    await this.model.update(data, { where: { id } });
+    return { message: 'Updated' };
+  };
 }
